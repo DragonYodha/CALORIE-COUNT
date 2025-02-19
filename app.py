@@ -8,7 +8,7 @@ from PIL import Image
 load_dotenv()
 
 # Set up the Google Gemini AI with your API key
-genai.configure(api_key="AIzaSyCuf5UbF_E22S4PxgXt7WS9sNC1Dj4pRiI")
+genai.configure(api_key="GOOGLE_API_KEY")
 
 # Function to prepare the uploaded image for AI processing
 def prepare_image(uploaded_file):
