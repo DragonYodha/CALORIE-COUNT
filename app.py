@@ -1,14 +1,19 @@
 import streamlit as st
-from dotenv import load_dotenv
-import os
 import google.generativeai as genai
 from PIL import Image
 
-# Load the API key from .env file
-load_dotenv()
+# Configure Gemini AI using Streamlit Secrets
+genai.configure(api_key=st.secrets["GOOGLE_API_KEY"])
 
-# Set up the Google Gemini AI with your API key
-genai.configure(api_key="GOOGLE_API_KEY")
+# Function to get AI response about the food image
+def get_gemini_response(image, prompt):
+    """Send image to Google's AI and get calorie information"""
+    try:
+        model = genai.GenerativeModel('gemini-1.5-pro')
+        response = model.generate_content([image[0], prompt])
+        return response.text
+    except Exception as e:
+        return f"Error: {str(e)}"
 
 # Function to prepare the uploaded image for AI processing
 def prepare_image(uploaded_file):
@@ -24,16 +29,6 @@ def prepare_image(uploaded_file):
         return image_parts
     else:
         return None
-
-# Function to get AI response about the food image
-def get_gemini_response(image, prompt):
-    """Send image to Google's AI and get calorie information"""
-    try:
-        model = genai.GenerativeModel('gemini-1.5-pro')
-        response = model.generate_content([image[0], prompt])
-        return response.text
-    except Exception as e:
-        return f"Error: {str(e)}"
 
 # Main web app
 def main():
